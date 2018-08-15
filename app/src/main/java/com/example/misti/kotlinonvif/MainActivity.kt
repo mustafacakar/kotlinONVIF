@@ -10,16 +10,9 @@ import com.pedro.vlc.VlcListener
 import com.pedro.vlc.VlcVideoLibrary
 import com.rvirin.onvif.onvifcamera.*
 
-class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener{
-    override fun onComplete() {
-        Toast.makeText(this,"Video Yükleniyor", Toast.LENGTH_LONG).show()
-    }
+class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener {
 
-    override fun onError() {
-        Toast.makeText(this,"Hata", Toast.LENGTH_LONG).show()
-    }
-
-    var vlcVideoLibrary: VlcVideoLibrary? =null
+    var vlcVideoLibrary: VlcVideoLibrary? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +21,7 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener{
 
         //Aygıtın ip,username,pass ları burda belirtiyoruz.
 
-       currentDevice =  OnvifDevice("10.59.143.132:8080","388724","mumy");
+        currentDevice = OnvifDevice("10.37.38.115:8080", "", "");
         currentDevice.listener = this
         currentDevice.getServices()
 
@@ -39,7 +32,7 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener{
 
         //Bağlantı kurulduysa surfaceView e yönlendirme.
         //VLC MediaPlayer vs. burada.
-        Log.d("INFO",response.parsingUIMessage)
+        Log.d("INFO", response.parsingUIMessage)
 
         if(response.request.type == OnvifRequest.Type.GetDeviceInformation){
             currentDevice.getProfiles()
@@ -62,8 +55,10 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener{
 
 
 
-        /*  bağlantı dogru kuruldu mu kurulmadı mı kontrolleri burdan.
-        //region BAĞLANTI KONTROL İÇİN KONTROLLER
+            //region
+
+            /*  bağlantı dogru kuruldu mu kurulmadı mı kontrolleri burdan.
+
         Log.d("INFO",response.parsingUIMessage)
 
         if(response.request.type == OnvifRequest.Type.GetServices){
@@ -76,5 +71,19 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener{
 
         //endregion
         */
+
+
+
     }
+
+    override fun onComplete() {
+        Toast.makeText(this, "Video Yükleniyor", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onError() {
+        Toast.makeText(this, "Hata", Toast.LENGTH_LONG).show()
+    }
+
 }
+
+

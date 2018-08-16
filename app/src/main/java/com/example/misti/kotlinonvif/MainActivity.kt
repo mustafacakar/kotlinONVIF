@@ -1,10 +1,11 @@
 package com.example.misti.kotlinonvif
 
-import android.graphics.Region
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.SurfaceView
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.pedro.vlc.VlcListener
 import com.pedro.vlc.VlcVideoLibrary
@@ -18,12 +19,16 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val ipporttext=findViewById<EditText>(R.id.editText_ip)
+val btn_connect=findViewById<Button>(R.id.button_connect)
+        btn_connect.setOnClickListener{
+            currentDevice = OnvifDevice(ipporttext.text.toString(), "", "")
+            currentDevice.listener = this
+            currentDevice.getDeviceInformation()
+        }
         //Aygıtın ip,username,pass ları burda belirtiyoruz.
 
-        currentDevice = OnvifDevice("10.37.38.115:8080", "", "");
-        currentDevice.listener = this
-        currentDevice.getServices()
+
 
     }
 
@@ -32,7 +37,7 @@ class MainActivity : AppCompatActivity(), OnvifListener ,VlcListener {
 
         //Bağlantı kurulduysa surfaceView e yönlendirme.
         //VLC MediaPlayer vs. burada.
-        Log.d("INFO", response.parsingUIMessage)
+        Log.d("Logx", response.parsingUIMessage)
 
         if(response.request.type == OnvifRequest.Type.GetDeviceInformation){
             currentDevice.getProfiles()
